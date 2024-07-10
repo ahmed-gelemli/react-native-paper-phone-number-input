@@ -1,7 +1,15 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { FlatList, Platform, StyleSheet, View } from 'react-native';
 import {
   DataTable,
+  IconButton,
   Modal,
   Portal,
   Searchbar,
@@ -13,7 +21,7 @@ import {
 import { countries } from './data/countries';
 import { useDebouncedValue } from './use-debounced-value';
 import { getCountryByCode } from './utils';
-import type { CountryPickerProps, CountryPickerRef } from './types';
+import type { CountryPickerProps, CountryPickerRef, RNPaperTextInputRef } from './types';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const isIOS = Platform.OS === 'ios';
@@ -45,8 +53,17 @@ export const CountryPicker = forwardRef<CountryPickerRef, CountryPickerProps>(
     const [searchQuery, setSearchQuery] = useState('');
     const debouncedSearchQuery = useDebouncedValue(searchQuery, 300);
 
+    const searchbarRef = useRef<RNPaperTextInputRef>(null);
+
+    const openModal = () => {
+      setVisible(true);
+      setTimeout(() => {
+        searchbarRef.current?.focus();
+      }, 100);
+    };
+
     useImperativeHandle(ref, () => ({
-      openCountryPicker: () => setVisible(true),
+      openCountryPicker: openModal,
       closeCountryPicker: () => setVisible(false),
     }));
 
@@ -115,7 +132,7 @@ export const CountryPicker = forwardRef<CountryPickerRef, CountryPickerProps>(
         <TouchableRipple
           disabled={disabled || !editable}
           style={[styles.ripple]}
-          onPress={() => setVisible(true)}
+          onPress={openModal}
         >
           <Text> </Text>
         </TouchableRipple>
@@ -138,7 +155,21 @@ export const CountryPicker = forwardRef<CountryPickerRef, CountryPickerProps>(
             visible={visible}
             onDismiss={() => setVisible(false)}
           >
-            <Searchbar placeholder="Search" onChangeText={setSearchQuery} value={searchQuery} />
+            <View style={styles.searchbox}>
+              <IconButton icon="arrow-left" onPress={() => setVisible(false)} />
+              <Searchbar
+                style={styles.searchbar}
+                placeholder="Search"
+                onChangeText={setSearchQuery}
+                value={searchQuery}
+                ref={searchbarRef}
+                onKeyPress={({ nativeEvent }) => {
+                  if (nativeEvent.key === 'Escape') {
+                    setVisible(false);
+                  }
+                }}
+              />
+            </View>
             <DataTable style={styles.flex1}>
               <FlatList
                 data={searchResult}
@@ -178,5 +209,12 @@ const styles = StyleSheet.create({
     padding: 16,
     flex: isIOS ? undefined : 1,
     marginBottom: isIOS ? 150 : undefined,
+  },
+  searchbox: {
+    flexDirection: 'row',
+  },
+  searchbar: {
+    flex: 1,
+    alignItems: 'center',
   },
 });

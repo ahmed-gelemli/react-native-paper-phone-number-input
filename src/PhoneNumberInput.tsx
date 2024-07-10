@@ -2,6 +2,7 @@ import React, { forwardRef, useImperativeHandle, useMemo, useRef, useState } fro
 import { FlatList, Platform, StyleSheet, View } from 'react-native';
 import {
   DataTable,
+  IconButton,
   Modal,
   Portal,
   Searchbar,
@@ -10,11 +11,11 @@ import {
   TouchableRipple,
   useTheme,
 } from 'react-native-paper';
-import { countries } from './data/countries';
-import { getCountryByCode } from './utils';
-import { useDebouncedValue } from './use-debounced-value';
-import type { PhoneNumberInputProps, PhoneNumberInputRef, RNPaperTextInputRef } from './types';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { countries } from './data/countries';
+import type { PhoneNumberInputProps, PhoneNumberInputRef, RNPaperTextInputRef } from './types';
+import { useDebouncedValue } from './use-debounced-value';
+import { getCountryByCode } from './utils';
 
 const isIOS = Platform.OS === 'ios';
 
@@ -48,10 +49,18 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
     const country = getCountryByCode(code);
 
     const textInputRef = useRef<RNPaperTextInputRef>(null);
+    const searchbarRef = useRef<RNPaperTextInputRef>(null);
 
     const onChangePhoneNumber = (text: string) => {
       const value = text.split(' ')[2];
       setPhoneNumber(value);
+    };
+
+    const openModal = () => {
+      setVisible(true);
+      setTimeout(() => {
+        searchbarRef.current?.focus();
+      }, 100);
     };
 
     useImperativeHandle(ref, () => ({
@@ -60,7 +69,7 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
       blur: () => textInputRef.current?.blur(),
       isFocused: () => textInputRef.current?.isFocused() ?? false,
       setNativeProps: (props) => textInputRef.current?.setNativeProps(props),
-      openCountryPicker: () => setVisible(true),
+      openCountryPicker: openModal,
       closeCountryPicker: () => setVisible(false),
     }));
 
@@ -135,7 +144,7 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
         <TouchableRipple
           disabled={disabled || !editable}
           style={[styles.ripple, { width }]}
-          onPress={() => setVisible(true)}
+          onPress={openModal}
         >
           <Text> </Text>
         </TouchableRipple>
@@ -158,7 +167,21 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
             visible={visible}
             onDismiss={() => setVisible(false)}
           >
-            <Searchbar placeholder="Search" onChangeText={setSearchQuery} value={searchQuery} />
+            <View style={styles.searchbox}>
+              <IconButton icon="arrow-left" onPress={() => setVisible(false)} />
+              <Searchbar
+                style={styles.searchbar}
+                placeholder="Search"
+                onChangeText={setSearchQuery}
+                value={searchQuery}
+                ref={searchbarRef}
+                onKeyPress={({ nativeEvent }) => {
+                  if (nativeEvent.key === 'Escape') {
+                    setVisible(false);
+                  }
+                }}
+              />
+            </View>
             <DataTable style={styles.flex1}>
               <DataTable.Header>
                 <DataTable.Title>Country</DataTable.Title>
@@ -201,5 +224,12 @@ const styles = StyleSheet.create({
     padding: 16,
     flex: isIOS ? undefined : 1,
     marginBottom: isIOS ? 270 : undefined,
+  },
+  searchbox: {
+    flexDirection: 'row',
+  },
+  searchbar: {
+    flex: 1,
+    alignItems: 'center',
   },
 });
