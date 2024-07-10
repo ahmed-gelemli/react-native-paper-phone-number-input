@@ -1,4 +1,4 @@
-import type { TextInput as NativeTextInput } from 'react-native';
+import type { TextInput as NativeTextInput, StyleProp, ViewStyle } from 'react-native';
 import type { TextInputProps } from 'react-native-paper';
 
 export type RNPaperTextInputRef = Pick<
@@ -17,6 +17,8 @@ export interface PhoneNumberInputProps extends Omit<TextInputProps, 'value' | 'o
   phoneNumber?: string;
   setPhoneNumber: React.Dispatch<React.SetStateAction<string | undefined>>;
   showFirstOnList?: string[];
+  modalStyle?: StyleProp<ViewStyle>;
+  modalContainerStyle?: StyleProp<ViewStyle>;
 }
 
 export interface CountryPickerRef {
@@ -28,4 +30,6 @@ export interface CountryPickerProps extends Omit<TextInputProps, 'value' | 'onCh
   country?: string;
   setCountry: React.Dispatch<React.SetStateAction<string>>;
   showFirstOnList?: string[];
+  modalStyle?: StyleProp<ViewStyle>;
+  modalContainerStyle?: StyleProp<ViewStyle>;
 }

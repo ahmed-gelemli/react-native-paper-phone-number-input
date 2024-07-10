@@ -31,6 +31,8 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
       disabled,
       editable = true,
       keyboardType,
+      modalStyle,
+      modalContainerStyle,
       // rest of the props
       ...rest
     },
@@ -150,20 +152,16 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
         </TouchableRipple>
         <Portal>
           <Modal
-            style={{
-              backgroundColor: theme.colors.background,
-              marginTop: undefined,
-              marginBottom: undefined,
-              justifyContent: undefined,
-              paddingTop: insets.top,
-              paddingBottom: insets.bottom,
-            }}
-            contentContainerStyle={[
-              styles.countries,
+            style={[
+              styles.modal,
               {
-                justifyContent: undefined,
+                backgroundColor: theme.colors.background,
+                paddingTop: insets.top,
+                paddingBottom: insets.bottom,
               },
+              modalStyle,
             ]}
+            contentContainerStyle={[styles.countries, modalContainerStyle]}
             visible={visible}
             onDismiss={() => setVisible(false)}
           >
@@ -220,10 +218,16 @@ const styles = StyleSheet.create({
   flex1: {
     flex: isIOS ? undefined : 1,
   },
+  modal: {
+    marginTop: undefined,
+    marginBottom: undefined,
+    justifyContent: undefined,
+  },
   countries: {
     padding: 16,
     flex: isIOS ? undefined : 1,
     marginBottom: isIOS ? 270 : undefined,
+    justifyContent: undefined,
   },
   searchbox: {
     flexDirection: 'row',
