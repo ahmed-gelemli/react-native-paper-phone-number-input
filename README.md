@@ -73,14 +73,16 @@ A more complete example can be found in the `example` directory.
 
 #### Props
 
-| Prop              | Type                            | Description                                                                               | Notes                                                                            |
-| ----------------- | ------------------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `code`            | `string`                        | The country code.                                                                         | Optional. By default, the country code is set to `##` whicch shows a world icon. |
-| `setCode`         | `(code: string) => void`        | A function that sets the country code.                                                    | Required.                                                                        |
-| `phoneNumber`     | `string`                        | The phone number.                                                                         | Optional. By default, no phone number is set.                                    |
-| `setPhoneNumber`  | `(phoneNumber: string) => void` | A function that sets the phone number.                                                    | Required.                                                                        |
-| `showFirstOnList` | `string[]`                      | A list of country codes that should be shown on top of the list.                          | Optional. By default, countries are shown alphabetically.                        |
-| `...rest`         | `...TextInputProps`             | Any other props that you want to pass to the `TextInput` component of React Native Paper. | Optional.                                                                        |
+| Prop                  | Type                            | Description                                                                               | Notes                                                                            |
+| --------------------- | ------------------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `code`                | `string`                        | The country code.                                                                         | Optional. By default, the country code is set to `##` whicch shows a world icon. |
+| `setCode`             | `(code: string) => void`        | A function that sets the country code.                                                    | Required.                                                                        |
+| `phoneNumber`         | `string`                        | The phone number.                                                                         | Optional. By default, no phone number is set.                                    |
+| `setPhoneNumber`      | `(phoneNumber: string) => void` | A function that sets the phone number.                                                    | Required.                                                                        |
+| `showFirstOnList`     | `string[]`                      | A list of country codes that should be shown on top of the list.                          | Optional. By default, countries are shown alphabetically.                        |
+| `modalStyle`          | `StyleProp<ViewStyle>`          | The style of the modal that shows the country code picker.                                | Optional.                                                                        |
+| `modalContainerStyle` | `StyleProp<ViewStyle>`          | The style of the container of the modal that shows the country code picker.               | Optional.                                                                        |
+| `...rest`             | `...TextInputProps`             | Any other props that you want to pass to the `TextInput` component of React Native Paper. | Optional.                                                                        |
 
 #### Ref Methods
 
@@ -134,7 +136,9 @@ To solve this, this library uses the country code instead of the dial code. This
 
 This library uses unicode emoji flags to show the flags. Emoji flags are not delibaretely suppprted by Microsoft Windows. While Firefox supports emoji flags by bundling Twemoji, Chrome and Edge do not support emoji flags. If you are using Chrome or other Chromium based browsers like Edge on Windows.
 
-To solve this, you should use the [country-flag-emoji-polycill](https://github.com/talkjs/country-flag-emoji-polyfill) library.
+To solve this, you should use the [country-flag-emoji-polyfill](https://github.com/talkjs/country-flag-emoji-polyfill) library.
+
+See [#2](https://github.com/kuasha420/react-native-paper-phone-number-input/issues/2) for additional information.
 
 ## Development
 
