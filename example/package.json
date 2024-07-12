@@ -1,7 +1,7 @@
 {
   "name": "react-native-paper-phone-number-input-example",
   "description": "Example app for react-native-paper-phone-number-input",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
