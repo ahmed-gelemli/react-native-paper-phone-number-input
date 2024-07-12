@@ -42,6 +42,7 @@ const Application: React.FC = () => {
             phoneNumber={phoneNumber}
             setPhoneNumber={setPhoneNumber}
             showFirstOnList={countriesToShowFirst}
+            modalStyle={Platform.OS === 'web' ? styles.web : undefined}
           />
           <Surface elevation={5} style={styles.country}>
             <View style={styles.left}>
@@ -144,6 +145,13 @@ const styles = StyleSheet.create({
   actions: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
+  },
+  web: {
+    width: '40%',
+    height: '80%',
+    marginHorizontal: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto',
   },
 });
 
