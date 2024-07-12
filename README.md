@@ -132,14 +132,6 @@ Multiple countries can have the same dial code. For example, the dial code for U
 
 To solve this, this library uses the country code instead of the dial code. This library also exposes a `getCountryByCode` method that can be used to get the country details from the country code such as the dial code, country name and flag.
 
-### Flags are not showing up/displaying as 2-letter codes/boxes?
-
-This library uses unicode emoji flags to show the flags. Emoji flags are not delibaretely suppprted by Microsoft Windows. While Firefox supports emoji flags by bundling Twemoji, Chrome and Edge do not support emoji flags. If you are using Chrome or other Chromium based browsers like Edge on Windows.
-
-To solve this, you should use the [country-flag-emoji-polyfill](https://github.com/talkjs/country-flag-emoji-polyfill) library.
-
-See [#2](https://github.com/kuasha420/react-native-paper-phone-number-input/issues/2) for additional information.
-
 ## Development
 
 This project integrates with `react-native-builder-bob`. To get started:
