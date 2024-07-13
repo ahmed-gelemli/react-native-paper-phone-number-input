@@ -155,16 +155,16 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
         </TouchableRipple>
         <Portal theme={theme}>
           <Modal
-            style={[
-              styles.modal,
+            style={[styles.modal, modalStyle]}
+            contentContainerStyle={[
+              styles.countries,
               {
                 backgroundColor: themeWithFlagsFont.colors.background,
-                paddingTop: insets.top,
-                paddingBottom: insets.bottom,
+                paddingTop: insets.top + 16,
+                paddingBottom: insets.bottom + 16,
               },
-              modalStyle,
+              modalContainerStyle,
             ]}
-            contentContainerStyle={[styles.countries, modalContainerStyle]}
             visible={visible}
             onDismiss={() => setVisible(false)}
             theme={theme}
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     justifyContent: undefined,
   },
   countries: {
-    padding: 16,
+    paddingHorizontal: 16,
     flex: isIOS ? undefined : 1,
     marginBottom: isIOS ? 270 : undefined,
     justifyContent: undefined,
