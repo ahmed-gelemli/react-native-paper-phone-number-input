@@ -41,9 +41,9 @@ npm i react-native-paper-phone-number-input
 
 ### Add support for Web
 
-This package should work out of the box on most desktop and mobile browsers on Web. However, Microsoft Windows does not ship with Flags Emoji by default. To add support for Flags Emoji on Windows, While the flags will display correctly on Firefox and its derivatives, Chromium based browsers like Chrome and Edge will not display the flags correctly and will show the two-letter country code instead.
+This package should work out of the box on most desktop and mobile browsers on Web. However, Microsoft Windows does not ship with Flags Emoji by default. While the flags will display correctly on Firefox and its derivatives, Chromium based browsers like Chrome and Edge will not display the flags correctly and will show the two-letter country code instead.
 
-To fix this, you should install [country-flag-emoji-polyfill](https://www.npmjs.com/package/country-flag-emoji-polyfill) and import it in your project. This polyfill will add support for Flags Emoji on Windows. The setup process is described in the readme of the library.
+To fix this, you should install [country-flag-emoji-polyfill](https://www.npmjs.com/package/country-flag-emoji-polyfill) and import it in your project. This polyfill will add support for Flag Emojis on Windows. The setup process is described in the readme of the library. Briefly:
 
 For expo users, you can add the polyfill by adding the following to your `web/index.html` file:
 
