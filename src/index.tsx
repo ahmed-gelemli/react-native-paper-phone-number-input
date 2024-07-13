@@ -7,3 +7,4 @@ export type {
   CountryPickerRef,
 } from './types';
 export { getCountryByCode } from './utils';
+export { defaultFlagsFont } from './constants';

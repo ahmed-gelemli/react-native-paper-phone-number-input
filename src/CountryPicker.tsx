@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { FlatList, Platform, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import {
   DataTable,
   IconButton,
@@ -16,15 +16,14 @@ import {
   Text,
   TextInput,
   TouchableRipple,
-  useTheme,
 } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { isIOS } from './constants';
 import { countries } from './data/countries';
 import type { CountryPickerProps, CountryPickerRef, RNPaperTextInputRef } from './types';
 import { useDebouncedValue } from './use-debounced-value';
+import useThemeWithFlagsFont from './useThemeWithFlagsFont';
 import { getCountryByCode } from './utils';
-
-const isIOS = Platform.OS === 'ios';
 
 export const CountryPicker = forwardRef<CountryPickerRef, CountryPickerProps>(
   (
@@ -32,18 +31,20 @@ export const CountryPicker = forwardRef<CountryPickerRef, CountryPickerProps>(
       country,
       setCountry,
       showFirstOnList,
+      modalStyle,
+      modalContainerStyle,
       // Prpos from TextInput that needs special handling
       disabled,
       editable = true,
-      modalStyle,
-      modalContainerStyle,
+      theme,
       // rest of the props
       ...rest
     },
     ref
   ) => {
     const insets = useSafeAreaInsets();
-    const theme = useTheme();
+
+    const themeWithFlagsFont = useThemeWithFlagsFont(theme);
 
     // States for the modal
     const [visible, setVisible] = useState(false);
@@ -129,20 +130,22 @@ export const CountryPicker = forwardRef<CountryPickerRef, CountryPickerProps>(
           editable={editable}
           onChangeText={setCountry}
           value={value}
+          theme={themeWithFlagsFont}
         />
         <TouchableRipple
           disabled={disabled || !editable}
-          style={[styles.ripple]}
+          style={styles.ripple}
           onPress={openModal}
+          theme={theme}
         >
           <Text> </Text>
         </TouchableRipple>
-        <Portal>
+        <Portal theme={theme}>
           <Modal
             style={[
               styles.modal,
               {
-                backgroundColor: theme.colors.background,
+                backgroundColor: themeWithFlagsFont.colors.background,
                 paddingTop: insets.top,
                 paddingBottom: insets.bottom,
               },
@@ -151,9 +154,10 @@ export const CountryPicker = forwardRef<CountryPickerRef, CountryPickerProps>(
             contentContainerStyle={[styles.countries, modalContainerStyle]}
             visible={visible}
             onDismiss={() => setVisible(false)}
+            theme={theme}
           >
             <View style={styles.searchbox}>
-              <IconButton icon="arrow-left" onPress={() => setVisible(false)} />
+              <IconButton icon="arrow-left" onPress={() => setVisible(false)} theme={theme} />
               <Searchbar
                 style={styles.searchbar}
                 placeholder="Search"
@@ -165,10 +169,12 @@ export const CountryPicker = forwardRef<CountryPickerRef, CountryPickerProps>(
                     setVisible(false);
                   }
                 }}
+                theme={theme}
               />
             </View>
             <DataTable style={styles.flex1}>
               <FlatList
+                keyboardShouldPersistTaps="handled"
                 data={searchResult}
                 keyExtractor={(item) => item.code}
                 renderItem={({ item }) => (
@@ -178,8 +184,11 @@ export const CountryPicker = forwardRef<CountryPickerRef, CountryPickerProps>(
                       setCountryFlag(item.flag);
                       setVisible(false);
                     }}
+                    theme={theme}
                   >
-                    <DataTable.Cell>{`${item.flag}     ${item.name}`}</DataTable.Cell>
+                    <DataTable.Cell
+                      theme={themeWithFlagsFont}
+                    >{`${item.flag}     ${item.name}`}</DataTable.Cell>
                   </DataTable.Row>
                 )}
               />
