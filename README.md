@@ -39,6 +39,78 @@ Using NPM:
 npm i react-native-paper-phone-number-input
 ```
 
+### Add support for Web
+
+This package should work out of the box on most desktop and mobile browsers on Web. However, Microsoft Windows does not ship with Flags Emoji by default. To add support for Flags Emoji on Windows, While the flags will display correctly on Firefox and its derivatives, Chromium based browsers like Chrome and Edge will not display the flags correctly and will show the two-letter country code instead.
+
+To fix this, you should install [country-flag-emoji-polyfill](https://www.npmjs.com/package/country-flag-emoji-polyfill) and import it in your project. This polyfill will add support for Flags Emoji on Windows. The setup process is described in the readme of the library.
+
+For expo users, you can add the polyfill by adding the following to your `web/index.html` file:
+
+```html
+<script type="module" defer>
+  import { polyfillCountryFlagEmojis } from 'https://cdn.skypack.dev/country-flag-emoji-polyfill';
+  polyfillCountryFlagEmojis();
+</script>
+```
+
+For other setups, you can either add the above snippet in your `index.html` file or import the polyfill in your web entrypoint.
+
+```
+yarn add country-flag-emoji-polyfill
+```
+
+```tsx
+// App.web.tsx
+import { polyfillCountryFlagEmojis } from 'country-flag-emoji-polyfill';
+
+polyfillCountryFlagEmojis();
+```
+
+See the `example` directory for a complete example. For further information including using local fonts instead of loading it from the CDN, please refer to the [API Documentation](https://github.com/talkjs/country-flag-emoji-polyfill?tab=readme-ov-file#api) of the library.
+
+Note that this package uses the default font family `Twemoji Country Flags` for the relevant components. If you want to use a different font, in addition to using the proper parameters in `polyfillCountryFlagEmojis` call, you need to pass the relevant font families in the `theme` prop of the `PhoneNumberInput` or `CountryPicker` components.
+
+```tsx
+<PhoneNumberInput
+  code={countryCode}
+  setCode={setCountryCode}
+  phoneNumber={phoneNumber}
+  setPhoneNumber={setPhoneNumber}
+  theme={{
+    fonts: {
+      // For MD3Theme.
+      bodyLarge: {
+        fontFamily: '"YourFontFamily", ...',
+      },
+      default: {
+        fontFamily: '"YourFontFamily", ...',
+      },
+      // For MD2Theme.
+      regular: {
+        fontFamily: '"YourFontFamily", ...',
+      },
+    },
+  }}
+/>
+```
+
+This package also exports `defaultFlagsFont` which is the default font family used for the flags. You can use this to display flag emojis correctly in other components in your application on Windows.
+
+```tsx
+import { Text } from 'react-native';
+import { defaultFlagsFont } from 'react-native-paper-phone-number-input';
+
+// Use defaultFlagsFont in your components.
+<Text
+  style={{
+    fontFamily: defaultFlagsFont,
+  }}
+>
+  {selectedCountry.flag}
+</Text>;
+```
+
 ## Usage
 
 Import the `PhoneNumberInput` component from the library. You can then use it in your application like so:
