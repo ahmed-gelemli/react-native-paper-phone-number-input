@@ -111,23 +111,29 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
     }, [debouncedSearchQuery, countriesList]);
 
     let width = 62;
+    let baselineLength = 8;
 
     switch (country.dialCode.length) {
       case 1:
       case 2:
         width = 62;
+        baselineLength = 8;
         break;
       case 3:
         width = 71;
+        baselineLength = 9;
         break;
       case 4:
         width = 80;
+        baselineLength = 10;
         break;
       case 5:
         width = 89;
+        baselineLength = 11;
         break;
       default:
         width = 98;
+        baselineLength = 12;
         break;
     }
 
@@ -142,6 +148,7 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
           onChangeText={onChangePhoneNumber}
           value={`${country.flag} ${country.dialCode} ${phoneNumber}`}
           keyboardType={keyboardType || 'phone-pad'}
+          maxLength={baselineLength + country.length}
         />
         <TouchableRipple
           disabled={disabled || !editable}
