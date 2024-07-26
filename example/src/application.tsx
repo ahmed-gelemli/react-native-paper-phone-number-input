@@ -42,6 +42,7 @@ const Application: React.FC = () => {
             phoneNumber={phoneNumber}
             setPhoneNumber={setPhoneNumber}
             showFirstOnList={countriesToShowFirst}
+            onlyCountries={["AZ", "BD", "CA", "GB", "IN", "NZ", "US", "TR", "AU"]}
             modalStyle={Platform.OS === 'web' ? styles.web : undefined}
           />
           <Surface elevation={5} style={styles.country}>

@@ -27,7 +27,8 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
       phoneNumber = '',
       setPhoneNumber,
       showFirstOnList,
-      // Prpos from TextInput that needs special handling
+      onlyCountries = [], // Add the new prop
+      // Props from TextInput that needs special handling
       disabled,
       editable = true,
       keyboardType,
@@ -76,8 +77,13 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
     }));
 
     const countriesList = useMemo(() => {
+      let filteredCountries = countries;
+      if (onlyCountries.length > 0) {
+        filteredCountries = countries.filter((country) => onlyCountries.includes(country.code));
+      }
+
       if (!showFirstOnList?.length) {
-        return countries;
+        return filteredCountries;
       }
 
       const countriesToShowOnTop = showFirstOnList.map((code) => ({
@@ -87,11 +93,11 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
 
       return [
         ...countriesToShowOnTop,
-        ...countries.filter(
+        ...filteredCountries.filter(
           (country) => !countriesToShowOnTop.some((c) => c.code === country.code)
         ),
       ];
-    }, [showFirstOnList]);
+    }, [showFirstOnList, onlyCountries]);
 
     const searchResult = useMemo(() => {
       if (!debouncedSearchQuery) {
