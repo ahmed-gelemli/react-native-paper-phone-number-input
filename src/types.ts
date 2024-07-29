@@ -1,6 +1,8 @@
 import type { TextInput as NativeTextInput, StyleProp, ViewStyle } from 'react-native';
 import type { TextInputProps } from 'react-native-paper';
 
+export type $DeepPartial<T> = { [P in keyof T]?: $DeepPartial<T[P]> };
+
 export type RNPaperTextInputRef = Pick<
   NativeTextInput,
   'focus' | 'clear' | 'blur' | 'isFocused' | 'setNativeProps'

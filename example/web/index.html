@@ -12,6 +12,11 @@
       content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1.00001, viewport-fit=cover"
     />
     <title>%WEB_TITLE%</title>
+
+    <script type="module" defer>
+      import { polyfillCountryFlagEmojis } from 'https://cdn.skypack.dev/country-flag-emoji-polyfill';
+      polyfillCountryFlagEmojis();
+    </script>
     <style>
       * {
         margin: 0;

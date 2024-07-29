@@ -5,9 +5,12 @@ import type { PhoneNumberInputRef } from 'react-native-paper-phone-number-input'
 import {
   CountryPicker,
   PhoneNumberInput,
+  defaultFlagsFont,
   getCountryByCode,
 } from 'react-native-paper-phone-number-input';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+const isWeb = Platform.OS === 'web';
 
 // list of countries that should be shown first in the country picker.
 // Put this variable outside the component to avoid re-creating it on each render
@@ -42,8 +45,8 @@ const Application: React.FC = () => {
             phoneNumber={phoneNumber}
             setPhoneNumber={setPhoneNumber}
             showFirstOnList={countriesToShowFirst}
-            onlyCountries={["AZ", "BD", "CA", "GB", "IN", "NZ", "US", "TR", "AU"]}
-            modalStyle={Platform.OS === 'web' ? styles.web : undefined}
+            modalStyle={isWeb ? styles.web : undefined}
+            onlyCountries={['AZ', 'BD', 'CA', 'GB', 'IN', 'NZ', 'US', 'TR', 'AU']}
           />
           <Surface elevation={5} style={styles.country}>
             <View style={styles.left}>
@@ -134,6 +137,7 @@ const styles = StyleSheet.create({
   },
   flag: {
     fontSize: 48,
+    fontFamily: isWeb ? defaultFlagsFont : undefined,
   },
   handles: {
     marginVertical: 16,
