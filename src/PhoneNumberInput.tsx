@@ -28,7 +28,8 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
       showFirstOnList,
       modalStyle,
       modalContainerStyle,
-      // Prpos from TextInput that needs special handling
+      onlyCountries = [], // Add the new prop
+      // Props from TextInput that needs special handling
       disabled,
       editable = true,
       keyboardType,
@@ -77,8 +78,13 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
     }));
 
     const countriesList = useMemo(() => {
+      let filteredCountries = countries;
+      if (onlyCountries.length > 0) {
+        filteredCountries = countries.filter((country) => onlyCountries.includes(country.code));
+      }
+
       if (!showFirstOnList?.length) {
-        return countries;
+        return filteredCountries;
       }
 
       const countriesToShowOnTop = showFirstOnList.map((code) => ({
@@ -88,11 +94,11 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
 
       return [
         ...countriesToShowOnTop,
-        ...countries.filter(
+        ...filteredCountries.filter(
           (country) => !countriesToShowOnTop.some((c) => c.code === country.code)
         ),
       ];
-    }, [showFirstOnList]);
+    }, [showFirstOnList, onlyCountries]);
 
     const searchResult = useMemo(() => {
       if (!debouncedSearchQuery) {
@@ -112,23 +118,29 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
     }, [debouncedSearchQuery, countriesList]);
 
     let width = 62;
+    let baselineLength = 8;
 
     switch (country.dialCode.length) {
       case 1:
       case 2:
         width = 62;
+        baselineLength = 8;
         break;
       case 3:
         width = 71;
+        baselineLength = 9;
         break;
       case 4:
         width = 80;
+        baselineLength = 10;
         break;
       case 5:
         width = 89;
+        baselineLength = 11;
         break;
       default:
         width = 98;
+        baselineLength = 12;
         break;
     }
 
@@ -144,6 +156,7 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
           value={`${country.flag} ${country.dialCode} ${phoneNumber}`}
           keyboardType={keyboardType || 'phone-pad'}
           theme={themeWithFlagsFont}
+          maxLength={baselineLength + country.length}
         />
         <TouchableRipple
           disabled={disabled || !editable}
