@@ -229,6 +229,7 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
                     onPress={() => {
                       setCode(item.code);
                       setVisible(false);
+                      limitMaxLength && item.length < phoneNumber.length && setPhoneNumber('');
                     }}
                     theme={theme}
                   >

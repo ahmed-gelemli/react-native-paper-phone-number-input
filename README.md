@@ -160,16 +160,13 @@ A more complete example can be found in the `example` directory.
 | `showFirstOnList`     | `string[]`                      | A list of country codes that should be shown on top of the list.                                                         | Optional. By default, countries are shown alphabetically.                       |
 | `includeCountries`    | `string[]`                      | A list of country codes that specifies which countries can be selected.                                                  | Optional. By default, shows all countries.                                      |
 | `excludeCountries`    | `string[]`                      | A list of country codes that specifies which countries cannot be selected.                                               | Optional. By default, does not exclude any countries.                           |
-| 'limitMaxLength'      | `boolean`                       | Limit the maximum length of the phone number for the country as defined in [E.164](https://en.wikipedia.org/wiki/E.164). | Optional. By default, the maximum length of the phone number is not limited.    |
+| `limitMaxLength`      | `boolean`                       | Limit the maximum length of the phone number for the country as defined in [E.164](https://en.wikipedia.org/wiki/E.164). | Optional. By default, the maximum length of the phone number is not limited.    |
 | `modalStyle`          | `StyleProp<ViewStyle>`          | The style of the modal that shows the country code picker.                                                               | Optional.                                                                       |
 | `modalContainerStyle` | `StyleProp<ViewStyle>`          | The style of the container of the modal that shows the country code picker.                                              | Optional.                                                                       |
 | `...rest`             | `...TextInputProps`             | Any other props that you want to pass to the `TextInput` component of React Native Paper.                                | Optional.                                                                       |
 
 > [!TIP]  
-> The props that accepts a list of country codes such as `showFirstOnList`, `includeCountries` and `excludeCountries` should be defined outside the component or memoized to prevent unnecessary recomputations and re-renders!
-
-> [!WARNING]
-> If you are using the `limitMaxLength` prop, make sure to set the `phoneNumber` state to an empty string when the country code changes. This is because the maximum length of the phone number can change when the country code changes.
+> The props that accepts a list o f country codes such as `showFirstOnList`, `includeCountries` and `excludeCountries` should be defined outside the component or memoized to prevent unnecessary recomputations and re-renders!
 
 > [!CAUTION]
 > If you set contradictory prop values in `includeCountries` and `excludeCountries` props, the `excludeCountries` prop will take precedence over the `includeCountries` prop. ie. If you set the same country code in both `includeCountries` and `excludeCountries`, the country will be excluded.
