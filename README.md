@@ -19,6 +19,7 @@
 - Looks and feels consistent with React Native Paper.
 - Allows specifying default country.
 - Allows specifying a list of countries to show on top of the list.
+- Allows user to specify which countries to show.
 - Exposes imperative methods to open and close the country code picker.
 - Supports light and dark themes.
 - Works well on Android, iOS and Web.
@@ -60,6 +61,7 @@ export default function App() {
       setCode={setCountryCode}
       phoneNumber={phoneNumber}
       setPhoneNumber={setPhoneNumber}
+      onlyCountries={['AZ', 'BD', 'CA', 'GB', 'IN', 'NZ', 'US', 'TR']}
     />
   );
 }
@@ -73,16 +75,17 @@ A more complete example can be found in the `example` directory.
 
 #### Props
 
-| Prop                  | Type                            | Description                                                                               | Notes                                                                            |
-| --------------------- | ------------------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `code`                | `string`                        | The country code.                                                                         | Optional. By default, the country code is set to `##` whicch shows a world icon. |
-| `setCode`             | `(code: string) => void`        | A function that sets the country code.                                                    | Required.                                                                        |
-| `phoneNumber`         | `string`                        | The phone number.                                                                         | Optional. By default, no phone number is set.                                    |
-| `setPhoneNumber`      | `(phoneNumber: string) => void` | A function that sets the phone number.                                                    | Required.                                                                        |
-| `showFirstOnList`     | `string[]`                      | A list of country codes that should be shown on top of the list.                          | Optional. By default, countries are shown alphabetically.                        |
-| `modalStyle`          | `StyleProp<ViewStyle>`          | The style of the modal that shows the country code picker.                                | Optional.                                                                        |
-| `modalContainerStyle` | `StyleProp<ViewStyle>`          | The style of the container of the modal that shows the country code picker.               | Optional.                                                                        |
-| `...rest`             | `...TextInputProps`             | Any other props that you want to pass to the `TextInput` component of React Native Paper. | Optional.                                                                        |
+| Prop                  | Type                            | Description                                                                               | Notes                                                                           |
+| --------------------- | ------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `code`                | `string`                        | The country code.                                                                         | Optional. By default, the country code is set to `##` which shows a world icon. |
+| `setCode`             | `(code: string) => void`        | A function that sets the country code.                                                    | Required.                                                                       |
+| `phoneNumber`         | `string`                        | The phone number.                                                                         | Optional. By default, no phone number is set.                                   |
+| `setPhoneNumber`      | `(phoneNumber: string) => void` | A function that sets the phone number.                                                    | Required.                                                                       |
+| `showFirstOnList`     | `string[]`                      | A list of country codes that should be shown on top of the list.                          | Optional. By default, countries are shown alphabetically.                       |
+| `modalStyle`          | `StyleProp<ViewStyle>`          | The style of the modal that shows the country code picker.                                | Optional.                                                                       |
+| `modalContainerStyle` | `StyleProp<ViewStyle>`          | The style of the container of the modal that shows the country code picker.               | Optional.                                                                       |
+| `onlyCountries`       | `string[]`                      | A list of country codes that specifies which countries can be selected.                   | Optional.                                                                       |
+| `...rest`             | `...TextInputProps`             | Any other props that you want to pass to the `TextInput` component of React Native Paper. | Optional.                                                                       |
 
 #### Ref Methods
 
