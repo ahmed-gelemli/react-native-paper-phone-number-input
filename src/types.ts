@@ -19,7 +19,9 @@ export interface PhoneNumberInputProps extends Omit<TextInputProps, 'value' | 'o
   phoneNumber?: string;
   setPhoneNumber: React.Dispatch<React.SetStateAction<string | undefined>>;
   showFirstOnList?: string[];
-  onlyCountries? : string[];
+  includeCountries?: string[];
+  excludeCountries?: string[];
+  limitMaxLength?: boolean;
   modalStyle?: StyleProp<ViewStyle>;
   modalContainerStyle?: StyleProp<ViewStyle>;
 }
@@ -32,7 +34,8 @@ export interface CountryPickerRef {
 export interface CountryPickerProps extends Omit<TextInputProps, 'value' | 'onChangeText'> {
   country?: string;
   setCountry: React.Dispatch<React.SetStateAction<string>>;
-  onlyCountries? : string[];
+  includeCountries?: string[];
+  excludeCountries?: string[];
   showFirstOnList?: string[];
   modalStyle?: StyleProp<ViewStyle>;
   modalContainerStyle?: StyleProp<ViewStyle>;

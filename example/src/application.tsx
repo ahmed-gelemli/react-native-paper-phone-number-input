@@ -12,10 +12,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const isWeb = Platform.OS === 'web';
 
-// list of countries that should be shown first in the country picker.
-// Put this variable outside the component to avoid re-creating it on each render
-// Or you can use useMemo() hook to create it.
+// Put these variables outside the component to avoid re-creating it on each render
+// Or you can use useMemo() hook to create them.
 const countriesToShowFirst = ['BD', 'US', 'CA', 'GB', 'AU', 'IN', 'NZ'];
+const countriesToInclude = ['AZ', 'BD', 'CA', 'GB', 'IN', 'NZ', 'US', 'TR', 'AU'];
 
 const Application: React.FC = () => {
   const [countryCode, setCountryCode] = useState<string>('BD'); // Default country code
@@ -46,7 +46,7 @@ const Application: React.FC = () => {
             setPhoneNumber={setPhoneNumber}
             showFirstOnList={countriesToShowFirst}
             modalStyle={isWeb ? styles.web : undefined}
-            onlyCountries={['AZ', 'BD', 'CA', 'GB', 'IN', 'NZ', 'US', 'TR', 'AU']}
+            limitMaxLength
           />
           <Surface elevation={5} style={styles.country}>
             <View style={styles.left}>
@@ -68,10 +68,21 @@ const Application: React.FC = () => {
             </View>
           </Surface>
           <Text style={styles.title} variant="titleLarge">
+            Only Show Specific Countries
+          </Text>
+          <PhoneNumberInput
+            code={countryCode}
+            setCode={setCountryCode}
+            phoneNumber={phoneNumber}
+            setPhoneNumber={setPhoneNumber}
+            showFirstOnList={countriesToShowFirst}
+            modalStyle={isWeb ? styles.web : undefined}
+            includeCountries={countriesToInclude}
+          />
+          <Text style={styles.title} variant="titleLarge">
             Disabled State
           </Text>
           <PhoneNumberInput
-            ref={ref}
             code={countryCode}
             setCode={setCountryCode}
             phoneNumber={phoneNumber}
@@ -83,7 +94,6 @@ const Application: React.FC = () => {
             Not Editable
           </Text>
           <PhoneNumberInput
-            ref={ref}
             code={countryCode}
             setCode={setCountryCode}
             phoneNumber={phoneNumber}
