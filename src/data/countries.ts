@@ -510,8 +510,3 @@ export const countriesMap: CountriesMap = {
   ZM: { name: 'Zambia', flag: '🇿🇲', dialCode: '+260', length: 9 },
   ZW: { name: 'Zimbabwe', flag: '🇿🇼', dialCode: '+263', length: 9 },
 };
-
-export const coentryLongestDialCodeLength = countries.reduce(
-  (longest, country) => Math.max(longest, country.dialCode.length),
-  0
-);

@@ -28,7 +28,9 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
       showFirstOnList,
       modalStyle,
       modalContainerStyle,
-      onlyCountries = [], // Add the new prop
+      includeCountries,
+      excludeCountries,
+      limitMaxLength,
       // Props from TextInput that needs special handling
       disabled,
       editable = true,
@@ -78,27 +80,40 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
     }));
 
     const countriesList = useMemo(() => {
+      // By default, show all countries.
       let filteredCountries = countries;
-      if (onlyCountries.length > 0) {
-        filteredCountries = countries.filter((country) => onlyCountries.includes(country.code));
+
+      // First filter the countries based on the includeCountries.
+      if (Array.isArray(includeCountries) && includeCountries.length > 0) {
+        filteredCountries = includeCountries.map((code) => ({
+          ...getCountryByCode(code),
+          code,
+        }));
       }
 
-      if (!showFirstOnList?.length) {
-        return filteredCountries;
+      // If showFirstOnList is provided, show those countries on top of the list.
+      if (Array.isArray(showFirstOnList) && showFirstOnList.length > 0) {
+        // If the country is not in the includeCountries, do not show it.
+        // This is to prevent showing countries that are not in the includeCountries list.
+        const countriesToShowOnTop = filteredCountries.filter((country) =>
+          showFirstOnList.includes(country.code)
+        );
+
+        filteredCountries = countriesToShowOnTop.concat(
+          // Filter out the countries that are already shown on top.
+          filteredCountries.filter((country) => !showFirstOnList.includes(country.code))
+        );
       }
 
-      const countriesToShowOnTop = showFirstOnList.map((code) => ({
-        ...getCountryByCode(code),
-        code,
-      }));
+      // If excludeCountries is provided, filter out those countries.
+      if (Array.isArray(excludeCountries) && excludeCountries.length > 0) {
+        filteredCountries = filteredCountries.filter(
+          (country) => !excludeCountries.includes(country.code)
+        );
+      }
 
-      return [
-        ...countriesToShowOnTop,
-        ...filteredCountries.filter(
-          (country) => !countriesToShowOnTop.some((c) => c.code === country.code)
-        ),
-      ];
-    }, [showFirstOnList, onlyCountries]);
+      return filteredCountries;
+    }, [showFirstOnList, includeCountries, excludeCountries]);
 
     const searchResult = useMemo(() => {
       if (!debouncedSearchQuery) {
@@ -156,7 +171,7 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
           value={`${country.flag} ${country.dialCode} ${phoneNumber}`}
           keyboardType={keyboardType || 'phone-pad'}
           theme={themeWithFlagsFont}
-          maxLength={baselineLength + country.length}
+          maxLength={limitMaxLength ? baselineLength + country.length : undefined}
         />
         <TouchableRipple
           disabled={disabled || !editable}
@@ -214,6 +229,7 @@ export const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInput
                     onPress={() => {
                       setCode(item.code);
                       setVisible(false);
+                      limitMaxLength && item.length < phoneNumber.length && setPhoneNumber('');
                     }}
                     theme={theme}
                   >
