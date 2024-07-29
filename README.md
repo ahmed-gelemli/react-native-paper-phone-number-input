@@ -19,7 +19,7 @@
 - Looks and feels consistent with React Native Paper.
 - Allows specifying default country.
 - Allows specifying a list of countries to show on top of the list.
-- Allows user to specify which countries to show.
+- Allows user to specify which countries to show or hide in the list.
 - Exposes imperative methods to open and close the country code picker.
 - Supports light and dark themes.
 - Works well on Android, iOS and Web.
@@ -168,11 +168,11 @@ A more complete example can be found in the `example` directory.
 > [!TIP]  
 > The props that accepts a list of country codes such as `showFirstOnList`, `includeCountries` and `excludeCountries` should be defined outside the component or memoized to prevent unnecessary recomputations and re-renders!
 
-> [!CAUTION]
-> If you set contradictory prop values in `includeCountries` and `excludeCountries` props, the `excludeCountries` prop will take precedence over the `includeCountries` prop. ie. If you set the same country code in both `includeCountries` and `excludeCountries`, the country will be excluded.
-
 > [!WARNING]
 > If you are using the `limitMaxLength` prop, make sure to set the `phoneNumber` state to an empty string when the country code changes. This is because the maximum length of the phone number can change when the country code changes.
+
+> [!CAUTION]
+> If you set contradictory prop values in `includeCountries` and `excludeCountries` props, the `excludeCountries` prop will take precedence over the `includeCountries` prop. ie. If you set the same country code in both `includeCountries` and `excludeCountries`, the country will be excluded.
 
 #### Ref Methods
 
